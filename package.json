@@ -1,0 +1,52 @@
+{
+  "name": "ask-who-lambda",
+  "version": "1.0.0",
+  "description": "AWS lambda function to service Facebook Messager.",
+  "main": "handler.js",
+  "repository": "git@github.com:AskWho/ask-who-lambda.git",
+  "author": "eterna2 <eterna2@hotmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "lint": "npx eslint *.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "doc": "npx jsdoc2md --template README.hbs --files handler.js > ./docs/README.md",
+    "precommit": "lint-staged",
+    "init": "npx env-cmd .env npm run init-all",
+    "init-all": "npm run init-aws && npm run decrypt",
+    "init-aws": "npx serverless config credentials --provider aws --key $AWS_KEY --secret $AWS_SECRET",
+    "build": "npx env-cmd .env npm run build-all",
+    "build-all": "npm run encrypt && npm run doc",
+    "encrypt": "npx serverless encrypt --stage ${STAGE} --password ${SECRET}",
+    "decrypt": "npx serverless decrypt --stage ${STAGE} --password ${SECRET}",
+    "deploy": "npx env-cmd .env npm run deploy-serverless",
+    "deploy-serverless": "npx serverless deploy --stage ${STAGE}",
+    "remove": "npx env-cmd .env npm run remove-serverless",
+    "remove-serverless": "npx serverless remove --stage ${STAGE}"
+  },
+  "lint-staged": {
+    "*.{js}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "keywords": [],
+  "dependencies": {
+    "d3-format": "^1.2.0",
+    "request": "^2.83.0",
+    "safe-eval": "^0.3.0"
+  },
+  "devDependencies": {
+    "env-cmd": "^7.0.0",
+    "eslint": "^4.6.1",
+    "eslint-config-google": "^0.7.0",
+    "eslint-config-prettier": "^2.5.0",
+    "eslint-plugin-prettier": "^2.3.1",
+    "husky": "^0.14.3",
+    "jsdoc": "^3.5.5",
+    "jsdoc-to-markdown": "^3.0.0",
+    "lint-staged": "^4.2.1",
+    "prettier": "^1.7.0",
+    "serverless": "^1.23.0",
+    "serverless-secrets-plugin": "^0.1.0"
+  }
+}

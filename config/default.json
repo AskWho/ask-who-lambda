@@ -1,0 +1,13 @@
+{
+  "country": {
+    "cmd": "/country",
+    "args": ["name"],
+    "method": "get",
+    "description": "Get country general information",
+    "url": "https://restcountries.eu/rest/v2/name/${args.name}",
+    "text": "${body.name} can be found in ${body.region}, ${body.subregion}. ${body.name} has a population of ${body.population}.",
+    "format": {
+      "population": ",d"
+    }
+  }
+}
